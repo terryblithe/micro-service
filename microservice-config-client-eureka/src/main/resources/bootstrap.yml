@@ -1,0 +1,16 @@
+# 本文的bootstrap.yml文件中的内容不能放到application.yml中，否则config部分无法被加载，
+# 因为config部分的配置先于application.yml被加载，而bootstrap.yml中的配置会先于application.yml加载
+spring:
+  application:
+    name: microservice-config-client-eureka
+  cloud:
+    config:
+      profile: dev
+      label: master
+      discovery:
+        enabled: true #默认false，设为true表示使用注册中心中的configserver配置而不是自己配置configserver的uri
+        service-id: microservice-config-server-eureka #指定config server在服务发现中的serviceId，默认为：configserver
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://discovery:8761/eureka/

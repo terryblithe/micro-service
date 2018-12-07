@@ -1,0 +1,43 @@
+# 在默认情况下，Eureka会将自己也作为客户端尝试注册，所以在单机模式下，我们需要禁用该行为
+server:
+  port: 8761 # 指定该Eureka实例的端口
+eureka:
+  instance:
+    hostname: discovery # 指定该Eureka实例的主机名
+
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    serverUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+
+# 配置Eureka高可用
+# java -jar microservice-discovery-eureka-0.0.1-SNAPSHOT.jar --spring.profiles.active=peer1
+# java -jar microservice-discovery-eureka-0.0.1-SNAPSHOT.jar --spring.profiles.active=peer2
+#---
+#spring:
+#  profiles: peer1 # 指定profile=peer1
+#server:
+#  port: 8761
+#eureka:
+#  instance:
+#    hostname: peer1 # 指定当profile=peer1时，主机名
+#  client:
+#    serverUrl:
+#      defaultZone: http://peer2:8762/eureka/ # 将自己注册到peer2这个Eureka上面去
+#
+#---
+#spring:
+#  profiles: peer2 # 指定profile=peer2
+#server:
+#  port: 8762
+#eureka:
+#  instance:
+#    hostname: peer2 # 指定当profile=peer2时，主机名
+#  client:
+#    serverUrl:
+#      defaultZone: http://peer1:8761/eureka/ # 将自己注册到peer1这个Eureka上面去
+#
+#      # defaultZone: http://peer1:8761/eureka/,http://peer2:8762/eureka
+
+
